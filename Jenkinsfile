@@ -10,9 +10,12 @@ node {
       junit 'test-reports/results.xml'
     }
   }
-  withDockerContainer(args: '-v ${pwd}/sources:/src', image: 'cdrx/pyinstaller-linux:python2') {
+  withEnv([
+    'VOLUME=${pwd}/sources:/src',
+    "IMAGE=cdrx/pyinstaller-linux:python2"
+  ]) {
     stage('Deliver') {
-      sh 'pyinstaller -F add2vals.py'
+      sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
     }
   }
 }
