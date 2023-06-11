@@ -10,7 +10,7 @@ node {
       junit 'test-reports/results.xml'
     }
   }
-  withDockerContainer(args: '-v $(pwd):/src/', image: 'cdrx/pyinstaller-linux:python2') {
+  withDockerContainer(args: '-v /var/jenkins_home/workspace/submission1-cicd-pipeline-naufalazmi48:/src/', image: 'cdrx/pyinstaller-linux:python2') {
     stage('Deliver') {
       sh 'pyinstaller --onefile sources/add2vals.py'
     }
