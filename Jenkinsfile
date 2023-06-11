@@ -11,13 +11,13 @@ node {
     }
   }
   withEnv([
-    'VOLUME=$(pwd):/src',
+    'VOLUME=$(pwd)/sources:/src',
     "IMAGE=cdrx/pyinstaller-linux:python2"
   ]) {
     stage('Deliver') {
       try {
-        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F sources/add2vals.py'" 
-        archiveArtifacts 'dist/add2vals'
+        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
+        archiveArtifacts '.../dist/add2vals'
         echo 'Stage status: ${currentBuild.result}'
       } catch(e) {
         echo 'something were wrong'
