@@ -16,6 +16,11 @@ node {
   ]) {
     stage('Deliver') {
       sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
+
+      if (currentBuild.result == 'SUCCESS') {
+        echo 'Deliver stage is success'
+        archiveArtifacts 'dist/add2vals'
+      }
     }
   }
 }
