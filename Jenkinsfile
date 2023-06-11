@@ -17,7 +17,7 @@ node {
     stage('Deliver') {
       try {
         sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
-        archiveArtifacts '/sources/dist/add2vals'
+        archiveArtifacts 'sources/dist/add2vals'
         echo 'Stage status: ${currentBuild.result}'
       } catch(e) {
         echo 'something were wrong'
