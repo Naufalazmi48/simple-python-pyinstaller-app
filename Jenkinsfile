@@ -15,11 +15,13 @@ node {
     "IMAGE=cdrx/pyinstaller-linux:python2"
   ]) {
     stage('Deliver') {
-      sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
-
-      if (currentBuild.result == 'SUCCESS') {
-        echo 'Deliver stage is success'
+      try {
+        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
         archiveArtifacts 'dist/add2vals'
+        echo 'Stage status: ${currentBuild.result}'
+      } catch(e) {
+        echo 'something were wrong'
+        throw e
       }
     }
   }
