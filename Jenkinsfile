@@ -1,4 +1,7 @@
 node {
+  stage('Checkout code') {
+    checkout scm
+  }
   withDockerContainer(image: 'python:2-alpine') {
     stage('Build') {
       sh 'python -m py_compile sources/add2vals.py sources/calc.py'
@@ -18,7 +21,6 @@ node {
       try {
         sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
         archiveArtifacts 'dist/add2vals'
-        echo 'Stage status: ${currentBuild.result}'
       } catch(e) {
         echo 'something were wrong'
         throw e
